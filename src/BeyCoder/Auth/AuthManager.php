@@ -7,6 +7,11 @@ use pocketmine\Player;
 class AuthManager {
 
     /**
+     * @var ApiManager $manager
+     */
+    private $manager;
+
+    /**
      * @var Player $player
      */
     private $player;
@@ -16,12 +21,21 @@ class AuthManager {
      */
     private $logged;
 
-    public function __construct(Player $player, bool $logged = false)
+    /**
+     * AuthManager constructor.
+     * @param ApiManager $manager
+     * @param Player $player
+     * @param bool $logged
+     */
+    public function __construct(ApiManager $manager, Player $player, bool $logged = false)
     {
         $this->player = $player;
-
+        
         $this->logged = $logged;
+
+        $this->manager = $manager;
     }
+
 
     /**
      * @return Player
@@ -30,6 +44,14 @@ class AuthManager {
     {
         return $this->player;
     }
+
+    /**
+     * Проверка дирректории
+     */
+    public static function initializePath(){
+        if(@dir("authData")) @mkdir("authData");
+    }
+
 
     /**
      * @param bool $logged
@@ -47,5 +69,24 @@ class AuthManager {
         return $this->logged;
     }
 
-    
+    /**
+     * Выход из аккаунта
+     */
+    public function logout(){
+        $this->setLogged(false);
+    }
+
+    /**
+     * @param $password
+     * @return AuthData
+     */
+    public function login($password){
+        $authData = new AuthData($this->getPlayer(), $password);
+
+        if($authData->auth()){
+            $this->setLogged(true);
+        }
+
+        return $authData;
+    }
 }
