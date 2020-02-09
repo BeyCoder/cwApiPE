@@ -48,10 +48,10 @@ class AuthManager {
     /**
      * Проверка дирректории
      */
-    public static function initializePath(){
+    public static function initializePath()
+    {
         if(@dir("authData")) @mkdir("authData");
     }
-
 
     /**
      * @param bool $logged

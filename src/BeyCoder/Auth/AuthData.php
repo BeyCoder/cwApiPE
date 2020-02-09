@@ -20,14 +20,20 @@ class AuthData {
     private $password;
 
     /**
+     * @var string $cid
+     */
+    private $cid;
+
+    /**
      * @var string $path
      */
     private $path;
 
-    public function __construct(Player $player, string $password)
+    public function __construct(Player $player, string $password, string $cid)
     {
         $this->player = $player;
         $this->password = $password;
+        $this->cid = $cid;
 
         $this->path =  AuthData::$defaultPath . $this->getName() . ".json";
     }
@@ -35,7 +41,7 @@ class AuthData {
     /**
      * @return Player
      */
-    public function getPlayer()
+    public function getPlayer() : Player
     {
         return $this->player;
     }
@@ -43,19 +49,32 @@ class AuthData {
     /**
      * @return string
      */
-    public function getPassword()
+    public function getPassword() : string
     {
         return $this->password;
     }
 
-    public function getName(){
+    /**
+     * @return string
+     */
+    public function getName() : string
+    {
         return strtolower($this->getPlayer()->getName());
     }
 
     /**
      * @return string
      */
-    public function getFullName(){
+    public function getCid(): string
+    {
+        return $this->cid;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullName() : string
+    {
         return $this->getPlayer()->getName();
     }
 

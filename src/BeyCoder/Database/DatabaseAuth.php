@@ -38,7 +38,7 @@ class DatabaseAuth
      *
      * @throws Exception
      */
-    public function getAllUserData()
+    public function getAllUserData() : DatabaseResult
     {
         $result = file_get_contents($this->databaseManager->getFullHost() . "&method=getAllAuthData");
 
