@@ -89,7 +89,7 @@ class AuthData {
      */
     public function exists()
     {
-        $config = new Config($this->getPath(), Config::JSON);
+        //$config = new Config($this->getPath(), Config::JSON);
 
         return file_exists($this->getPath());
     }
