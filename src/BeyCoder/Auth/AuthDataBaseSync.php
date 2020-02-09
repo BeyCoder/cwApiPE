@@ -14,7 +14,7 @@ class AuthDataBaseSync extends AsyncTask {
 
     //TODO: DB SYSTEM
 
-    public function __construct(ApiManager $apiManager /*, DataBaseManager $databaseManager*/)
+    public function __construct(ApiManager $apiManager)
     {
         $this->apiManager = $apiManager;
     }
