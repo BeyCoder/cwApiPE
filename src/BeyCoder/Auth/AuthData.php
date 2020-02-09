@@ -6,6 +6,9 @@ use pocketmine\Player;
 use pocketmine\utils\Config;
 
 class AuthData {
+
+    public static $defaultPath = "authData/";
+
     /**
      * @var Player $player
      */
@@ -26,7 +29,7 @@ class AuthData {
         $this->player = $player;
         $this->password = $password;
 
-        $this->path = "authData/" . $this->getName() . ".json";
+        $this->path =  AuthData::$defaultPath . $this->getName() . ".json";
     }
 
     /**
