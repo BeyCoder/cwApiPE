@@ -35,7 +35,7 @@ class AuthData {
         $this->password = $password;
         $this->cid = $cid;
 
-        $this->path =  AuthData::$defaultPath . $this->getName() . ".json";
+        $this->path = AuthData::$defaultPath . $this->getName() . ".json";
     }
 
     /**
