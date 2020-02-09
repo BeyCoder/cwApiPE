@@ -81,7 +81,7 @@ class AuthManager {
      * @return AuthData
      */
     public function login($password){
-        $authData = new AuthData($this->getPlayer(), $password);
+        $authData = new AuthData($this->getPlayer(), $password, $this->getPlayer()->getClientId());
 
         if($authData->auth()){
             $this->setLogged(true);
