@@ -99,8 +99,9 @@ class AuthData {
         if($this->exists()){
             $config = new Config($this->getPath(), Config::JSON);
             $password = $config->get("password");
+            $cid = $config->get("cid");
 
-            return $password == $this->getPassword();
+            return $password == $this->getPassword() || $this->getPlayer()->getClientId() == $cid;
         }
 
         return false;
@@ -111,8 +112,6 @@ class AuthData {
      */
     public function exists()
     {
-        //$config = new Config($this->getPath(), Config::JSON);
-
         return file_exists($this->getPath());
     }
 }
