@@ -1,8 +1,8 @@
 <?php
 
-
 namespace BeyCoder;
 
+use Exception;
 
 class DatabaseAuth
 {
@@ -35,11 +35,14 @@ class DatabaseAuth
 
     /**
      * @return DatabaseResult
+     *
+     * @throws Exception
      */
     public function getAllUserData()
     {
         $result = file_get_contents($this->databaseManager->getFullHost() . "&method=getAllAuthData");
 
-        return $result;
+        $parser = new DatabaseResult($result);
+        return $parser;
     }
 }
