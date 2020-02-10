@@ -3,6 +3,12 @@
 namespace BeyCoder;
 
 class DatabaseManager{
+
+    /**
+     * @var DatabaseAuth $databaseAuth
+     */
+    private $databaseAuth;
+
     /**
      * @var string $host
      */
@@ -29,6 +35,16 @@ class DatabaseManager{
         $this->setApiKey($api_key);
         $this->setApiPath($api_path);
         $this->setHost($host);
+
+        $this->databaseAuth = new DatabaseAuth($this);
+    }
+
+    /**
+     * @return DatabaseAuth
+     */
+    public function getDatabaseAuth(): DatabaseAuth
+    {
+        return $this->databaseAuth;
     }
 
     /**
@@ -90,4 +106,5 @@ class DatabaseManager{
     {
         return "http://" . $this->getHost() . $this->getApiPath() . "?api_key=" . $this->getApiKey();
     }
+
 }

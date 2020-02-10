@@ -48,10 +48,10 @@ class AuthManager {
     /**
      * Проверка дирректории
      */
-    public static function initializePath(){
+    public static function initializePath()
+    {
         if(@dir("authData")) @mkdir("authData");
     }
-
 
     /**
      * @param bool $logged
@@ -78,15 +78,16 @@ class AuthManager {
 
     /**
      * @param $password
-     * @return AuthData
+     * @return bool
      */
     public function login($password){
-        $authData = new AuthData($this->getPlayer(), $password);
+        $authData = new AuthData($this->getPlayer(), $password, $this->getPlayer()->getClientId());
 
         if($authData->auth()){
             $this->setLogged(true);
+            return true;
         }
 
-        return $authData;
+        return false;
     }
 }
