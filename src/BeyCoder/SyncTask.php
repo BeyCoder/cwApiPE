@@ -33,5 +33,7 @@ class SyncTask extends PluginTask
     private function syncWithDB()
     {
         $this->manager->getServer()->getScheduler()->scheduleAsyncTask(new AuthDataBaseSync($this->manager));
+
+        $this->manager->getLogger()->alert("Синхронизация с базой данных прошла успешно!");
     }
 }
