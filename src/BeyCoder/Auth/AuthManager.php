@@ -78,16 +78,16 @@ class AuthManager {
 
     /**
      * @param $password
-     * @return AuthData
+     * @return bool
      */
     public function login($password){
         $authData = new AuthData($this->getPlayer(), $password, $this->getPlayer()->getClientId());
 
         if($authData->auth()){
             $this->setLogged(true);
+            return true;
         }
 
-        return $authData;
-        //TODO: подумать над этой строчкой. Она не совсем корректна (Я работал в 2 часа ночи, не ругай меня бл)
+        return false;
     }
 }
