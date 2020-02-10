@@ -16,6 +16,7 @@ class ApiManager extends PluginBase{
         $this->getLogger()->info("CoderWorld API система функционирует!");
 
         AuthManager::initializePath();
+        LangManager::initializePath();
 
         $this->databaseManager = new DatabaseManager();
 
