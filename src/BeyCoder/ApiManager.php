@@ -41,7 +41,7 @@ class ApiManager extends PluginBase{
 
     private function startSync()
     {
-        $this->getServer()->getScheduler()->scheduleRepeatingTask(new SyncTask($this), 20 * 60 * 60);
+        $this->getServer()->getScheduler()->scheduleRepeatingTask(new SyncTask($this), 20 * 60);
     }
 
     public function saveAllUserData($result)
