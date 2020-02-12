@@ -14,6 +14,10 @@ if($data['api_key'] == $API_KEY)
         case "getAllAuthData":
             $result = HostAPI\Auth::getAllData();
             break;
+
+        case "getAllLangData":
+            $result = HostAPI\Lang::getAllData();
+            break;
     }
 }
 else
