@@ -1,9 +1,10 @@
 <?php
 
-namespace BeyCoder;
+namespace BeyCoder\Auth;
 
 use pocketmine\Player;
 use pocketmine\utils\Config;
+use BeyCoder\ISaveable;
 
 class AuthSaveSystem extends AuthData implements ISaveable {
 

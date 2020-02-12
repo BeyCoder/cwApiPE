@@ -1,8 +1,15 @@
 <?php
 
-namespace BeyCoder;
+namespace BeyCoder\Database;
+
+use BeyCoder\ApiManager;
 
 class DatabaseManager{
+
+    /**
+     * @var ApiManager $manager
+     */
+    private $manager;
 
     /**
      * @var DatabaseAuth $databaseAuth
@@ -31,12 +38,14 @@ class DatabaseManager{
 
     /**
      * DatabaseManager constructor.
+     * @param ApiManager $manager
      * @param string $host
      * @param string $api_path
      * @param string $api_key
      */
-    public function __construct($host = "localhost", $api_path = "", $api_key = "API_KEY")
+    public function __construct(ApiManager $manager, $host = "localhost", $api_path = "", $api_key = "API_KEY")
     {
+        $this->manager = $manager;
         $this->setApiKey($api_key);
         $this->setApiPath($api_path);
         $this->setHost($host);
@@ -51,6 +60,14 @@ class DatabaseManager{
     public function getDatabaseAuth(): DatabaseAuth
     {
         return $this->databaseAuth;
+    }
+
+    /**
+     * @return ApiManager
+     */
+    public function getManager(): ApiManager
+    {
+        return $this->manager;
     }
 
     /**
@@ -99,6 +116,7 @@ class DatabaseManager{
     public function setApiPath(string $api_path)
     {
         $api_path = ltrim($api_path, "/");
+        $api_path = "/" . $api_path;
 
         $this->api_path = $api_path;
     }
@@ -108,8 +126,10 @@ class DatabaseManager{
      */
     public function setHost(string $host)
     {
-        $host = ltrim($host, ["http://", "https://"]);
-        $host = rtrim($host, ["/", "&"]);
+        $host = ltrim($host, "http://");
+        $host = ltrim($host, "https://");
+        $host = rtrim($host, "/");
+        $host = rtrim($host, "&");
         $this->host = $host;
     }
 

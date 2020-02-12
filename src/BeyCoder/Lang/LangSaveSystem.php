@@ -1,9 +1,10 @@
 <?php
 
-namespace BeyCoder;
+namespace BeyCoder\Lang;
 
 use pocketmine\Player;
 use pocketmine\utils\Config;
+use BeyCoder\ISaveable;
 
 class LangSaveSystem extends LangData implements ISaveable {
 

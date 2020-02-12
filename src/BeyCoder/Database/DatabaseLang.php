@@ -1,6 +1,6 @@
 <?php
 
-namespace BeyCoder;
+namespace BeyCoder\Database;
 
 use Exception;
 
@@ -33,16 +33,8 @@ class DatabaseLang
         return $this->databaseManager;
     }
 
-    /**
-     * @return DatabaseResult
-     *
-     * @throws Exception
-     */
-    public function getAllData() : DatabaseResult
+    public function getAllData()
     {
-        $result = file_get_contents($this->databaseManager->getFullHost() . "&method=getAllLangData");
-
-        $parser = new DatabaseResult($result);
-        return $parser;
+        $this->getDatabaseManager()->getManager()->getServer()->getScheduler()->scheduleAsyncTask(new AsyncURLTask($this->getDatabaseManager()->getHost(), $this->getDatabaseManager()->getApiPath(), $this->getDatabaseManager()->getApiKey(), "method=getAllLangData", "saveAllLangData"));
     }
 }

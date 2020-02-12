@@ -1,6 +1,6 @@
 <?php
 
-namespace BeyCoder;
+namespace BeyCoder\Database;
 
 use Exception;
 
@@ -36,10 +36,18 @@ class DatabaseResult{
      */
     public function setData(string $data)
     {
-        $result = json_decode($data);
+        $result = json_decode($data, true);
+
         if($result == null || $result == false)
         {
             throw new Exception(json_last_error_msg());
+        }
+
+        $this->deserializeData = $result;
+
+        if($this->haveError())
+        {
+            throw new Exception("[" . $this->deserializeData["error"]["code"] . "] " . $this->deserializeData["error"]["error_message"]);
         }
 
         $this->data = $data;
@@ -58,6 +66,6 @@ class DatabaseResult{
      */
     public function haveError() : bool
     {
-        return empty($this->deserializeData["error"]);
+        return !empty($this->deserializeData["error"]);
     }
 }

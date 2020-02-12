@@ -1,6 +1,6 @@
 <?php
 
-namespace BeyCoder;
+namespace BeyCoder\Database;
 
 use Exception;
 
@@ -33,16 +33,8 @@ class DatabaseAuth
         return $this->databaseManager;
     }
 
-    /**
-     * @return DatabaseResult
-     *
-     * @throws Exception
-     */
-    public function getAllUserData() : DatabaseResult
+    public function getAllUserData()
     {
-        $result = file_get_contents($this->databaseManager->getFullHost() . "&method=getAllAuthData");
-
-        $parser = new DatabaseResult($result);
-        return $parser;
+        $this->getDatabaseManager()->getManager()->getServer()->getScheduler()->scheduleAsyncTask(new AsyncURLTask($this->getDatabaseManager()->getHost(), $this->getDatabaseManager()->getApiPath(), $this->getDatabaseManager()->getApiKey(), "method=getAllAuthData", "saveAllUserData"));
     }
 }

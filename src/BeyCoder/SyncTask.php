@@ -6,6 +6,9 @@ namespace BeyCoder;
 
 use pocketmine\plugin\Plugin;
 use pocketmine\scheduler\PluginTask;
+use BeyCoder\Auth\AuthDataBaseSync;
+use BeyCoder\Lang\LangDataBaseSync;
+use Exception;
 
 class SyncTask extends PluginTask
 {
@@ -17,13 +20,14 @@ class SyncTask extends PluginTask
 
     /**
      * SyncTask constructor.
-     * @param ApiManager $owner
+     * @param ApiManager $manager
      */
-    public function __construct(ApiManager $owner)
+    public function __construct(ApiManager $manager)
     {
-        parent::__construct($owner);
-        $this->manager = $owner;
+        parent::__construct($manager);
+        $this->manager = $manager;
     }
+
 
     public function onRun($currentTick)
     {
@@ -32,9 +36,9 @@ class SyncTask extends PluginTask
 
     private function syncWithDB()
     {
-        $this->manager->getServer()->getScheduler()->scheduleAsyncTask(new AuthDataBaseSync($this->manager));
-        $this->manager->getServer()->getScheduler()->scheduleAsyncTask(new LangDataBaseSync($this->manager));
+        $this->manager->getDatabaseManager()->getDatabaseAuth()->getAllUserData();
+        $this->manager->getDatabaseManager()->getDatabaseLang()->getAllData();
 
-        $this->manager->getLogger()->alert("Синхронизация с базой данных прошла успешно!");
+        $this->manager->getLogger()->alert("Идёт синхронизация с базами данных!");
     }
 }

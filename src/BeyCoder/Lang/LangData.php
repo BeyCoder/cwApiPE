@@ -1,6 +1,6 @@
 <?php
 
-namespace BeyCoder;
+namespace BeyCoder\Lang;
 
 use pocketmine\Player;
 use pocketmine\utils\Config;

@@ -5,7 +5,7 @@ use BeyCoder\HostAPI;
 $API_KEY = "API_KEY";
 $data = $_REQUEST;
 
-$result = "[]";
+$result = array();
 
 if($data['api_key'] == $API_KEY)
 {
@@ -22,8 +22,8 @@ if($data['api_key'] == $API_KEY)
 }
 else
 {
-    $data["error"] = ["code" => 001, "error_message" => "Access denied! Key is invalid!"];
-    $result = json_encode($data);
+    $resultData["error"] = ["code" => 001, "error_message" => "Access denied! Key is invalid!"];
+    $result = json_encode($resultData);
 }
 
 die($result);

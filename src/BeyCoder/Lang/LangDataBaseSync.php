@@ -1,10 +1,11 @@
 <?php
 
-namespace BeyCoder;
+namespace BeyCoder\Lang;
 
 use pocketmine\scheduler\AsyncTask;
 use pocketmine\Server;
 use Exception;
+use BeyCoder\ApiManager;
 
 class LangDataBaseSync extends AsyncTask {
     /**
