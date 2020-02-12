@@ -10,6 +10,11 @@ class DatabaseManager{
     private $databaseAuth;
 
     /**
+     * @var DatabaseLang $databaseLang
+     */
+    private $databaseLang;
+
+    /**
      * @var string $host
      */
     private $host;
@@ -37,6 +42,7 @@ class DatabaseManager{
         $this->setHost($host);
 
         $this->databaseAuth = new DatabaseAuth($this);
+        $this->databaseLang = new DatabaseLang($this);
     }
 
     /**
@@ -45,6 +51,14 @@ class DatabaseManager{
     public function getDatabaseAuth(): DatabaseAuth
     {
         return $this->databaseAuth;
+    }
+
+    /**
+     * @return DatabaseLang
+     */
+    public function getDatabaseLang(): DatabaseLang
+    {
+        return $this->databaseLang;
     }
 
     /**
