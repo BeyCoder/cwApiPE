@@ -2,3 +2,7 @@ name: cwApiPE
 author: CoderWorld Team
 version: 0.0.1
 main: BeyCoder\ApiManager
+load: POSTWORLD
+api:
+  - 2.0.0
+  - 3.0.0
