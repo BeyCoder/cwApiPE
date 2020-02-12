@@ -18,6 +18,10 @@ if($data['api_key'] == $API_KEY)
         case "getAllLangData":
             $result = HostAPI\Lang::getAllData();
             break;
+
+        default:
+            $resultData["error"] = ["code" => 002, "error_message" => "Undefined method!"];
+            break;
     }
 }
 else
