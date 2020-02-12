@@ -50,7 +50,7 @@ class AsyncURLTask extends AsyncTask {
 
     public function onRun()
     {
-        $result = file_get_contents($this->getFullHost());
+        $result = @file_get_contents($this->getFullHost());
         $this->setResult($result);
     }
 
