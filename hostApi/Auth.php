@@ -18,7 +18,7 @@ class Auth
 
         $result = array();
 
-        if(!$users){
+        if($users){
             foreach ($users as $user){
                 $data[$user->login] = ["password" => $user->password, "cid" => $user->cid];
                 $result["users"][] = $data;

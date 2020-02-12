@@ -1,6 +1,16 @@
 <?php
 
-use BeyCoder\HostAPI;
+namespace BeyCoder;
+
+include_once "Auth.php";
+include_once "Lang.php";
+
+use BeyCoder\HostAPI\Auth;
+use BeyCoder\HostAPI\Lang;
+
+ini_set('error_reporting', E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
 
 $API_KEY = "API_KEY";
 $data = $_REQUEST;
@@ -12,11 +22,11 @@ if($data['api_key'] == $API_KEY)
     switch ($data['method'])
     {
         case "getAllAuthData":
-            $result = HostAPI\Auth::getAllData();
+            $result = Auth::getAllData();
             break;
 
         case "getAllLangData":
-            $result = HostAPI\Lang::getAllData();
+            $result = Lang::getAllData();
             break;
 
         default:
