@@ -15,7 +15,7 @@ use BeyCoder\Lang\LangManager;
 use BeyCoder\Database\DatabaseManager;
 use Exception;
 
-class ApiManager extends PluginBase implements Listener {
+class ApiManager extends PluginBase {
 
     /**
      * @var DatabaseManager $databaseManager
@@ -32,18 +32,6 @@ class ApiManager extends PluginBase implements Listener {
         $this->databaseManager = new DatabaseManager($this, "localhost", "api.php", "API_KEY");
 
         $this->startSync();
-
-        $this->getServer()->getPluginManager()->registerEvents($this, $this);
-    }
-
-    public function onJoin(PlayerJoinEvent $event)
-    {
-        $manager = new AuthManager($this, $event->getPlayer(), false);
-        try {
-            $manager->login("lol123");
-        } catch (Exception $e) {
-            $event->getPlayer()->sendMessage("Нужно зарегестрироваться");
-        }
     }
 
     /**
