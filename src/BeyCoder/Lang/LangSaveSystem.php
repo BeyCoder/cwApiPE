@@ -36,7 +36,6 @@ class LangSaveSystem extends LangData implements ISaveable {
      *  Save auth data
      */
     public function save(){
-
         $config = new Config($this->getPath(), Config::JSON);
 
         $config->set($this->key, $this->value);

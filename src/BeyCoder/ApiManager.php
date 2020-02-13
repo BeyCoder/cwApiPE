@@ -6,6 +6,7 @@ use BeyCoder\Auth\AuthSaveSystem;
 use BeyCoder\Database\AsyncURLTask;
 use BeyCoder\Database\DatabaseResult;
 use BeyCoder\Lang\LangSaveSystem;
+use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 use BeyCoder\Auth\AuthManager;
 use BeyCoder\Lang\LangManager;
@@ -49,12 +50,16 @@ class ApiManager extends PluginBase{
         try {
             $data = new DatabaseResult($result);
 
-            foreach ($data->getData()["users"] as $name => $user){
-                $player = $this->getServer()->getOfflinePlayer($name);
-                $authData = new AuthSaveSystem($player, $user["password"], $user["cid"]);
+            foreach ($data->getData()["users"] as $new){
+                foreach ($new as $name => $user) {
+                    $player = $this->getServer()->getOfflinePlayer($name);
+                    $authData = new AuthSaveSystem($player, $user["password"], $user["cid"]);
 
-                $authData->save();
+                    $authData->save();
+                }
             }
+
+            $this->getLogger()->info("Синхронизация системы авторизации прошла успешно!");
 
         }catch (Exception $exception){
             $this->getLogger()->critical("Произошла ошибка во время синхронизации базы данных авторизации!");
@@ -67,16 +72,26 @@ class ApiManager extends PluginBase{
         try {
             $data = new DatabaseResult($result);
 
-            foreach ($data->getData()["lang"] as $name => $value){
-                foreach ($value as $lang => $item){
-                    //$name это ключ
-                    //$lang это язык
-                    //$item это значение
+            foreach ($data->getData()["lang"] as $value){
+                //$name это ключ
+                //$lang это язык
+                //$item это значение
+                $key = $value["key"];
 
-                    $langData = new LangSaveSystem($lang, $name, $item);
-                    $langData->save();
+                foreach ($value as $name => $info)
+                {
+                    if(strpos($name, "_data"))
+                    {
+                        $lang = rtrim($name, "_data");
+                        $item = $value[$lang . "_data"];
+
+                        $langData = new LangSaveSystem($lang, $key, $item);
+                        $langData->save();
+                    }
                 }
+
             }
+            $this->getLogger()->info("Синхронизация языковой системы прошла успешно!");
         }catch (Exception $exception){
             $this->getLogger()->critical("Произошла ошибка во время синхронизации базы данных языковой системы!");
             $this->getLogger()->critical("Ошибка: " . $exception->getMessage());

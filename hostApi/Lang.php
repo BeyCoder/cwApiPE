@@ -14,11 +14,11 @@ class Lang
      */
     public static function getAllData()
     {
-        $lang= R::findAll("lang");
+        $lang = R::findAll("lang");
 
         $result = array();
 
-        if(!$lang){
+        if($lang){
             foreach ($lang as $data){
                 $data[$data->key] = ["ru" => $data->ru_data];
                 $result["lang"][] = $data;

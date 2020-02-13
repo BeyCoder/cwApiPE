@@ -34,7 +34,7 @@ class LangManager
      */
     public static function initializePath()
     {
-        if(@dir("langData")) @mkdir("langData");
+        if(!file_exists("langData")) @mkdir("langData");
     }
 
     /**

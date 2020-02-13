@@ -2,6 +2,7 @@
 
 namespace BeyCoder\Auth;
 
+use BeyCoder\ApiManager;
 use pocketmine\Player;
 
 class AuthManager {
@@ -50,7 +51,7 @@ class AuthManager {
      */
     public static function initializePath()
     {
-        if(@dir("authData")) @mkdir("authData");
+        if(!file_exists("authData")) @mkdir("authData");
     }
 
     /**
