@@ -6,6 +6,8 @@ use BeyCoder\Auth\AuthSaveSystem;
 use BeyCoder\Database\AsyncURLTask;
 use BeyCoder\Database\DatabaseResult;
 use BeyCoder\Lang\LangSaveSystem;
+use pocketmine\event\Listener;
+use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 use BeyCoder\Auth\AuthManager;
@@ -13,7 +15,7 @@ use BeyCoder\Lang\LangManager;
 use BeyCoder\Database\DatabaseManager;
 use Exception;
 
-class ApiManager extends PluginBase{
+class ApiManager extends PluginBase implements Listener {
 
     /**
      * @var DatabaseManager $databaseManager
@@ -30,6 +32,18 @@ class ApiManager extends PluginBase{
         $this->databaseManager = new DatabaseManager($this, "localhost", "api.php", "API_KEY");
 
         $this->startSync();
+
+        $this->getServer()->getPluginManager()->registerEvents($this, $this);
+    }
+
+    public function onJoin(PlayerJoinEvent $event)
+    {
+        $manager = new AuthManager($this, $event->getPlayer(), false);
+        try {
+            $manager->login("lol123");
+        } catch (Exception $e) {
+            $event->getPlayer()->sendMessage("Нужно зарегестрироваться");
+        }
     }
 
     /**
@@ -53,7 +67,7 @@ class ApiManager extends PluginBase{
             foreach ($data->getData()["users"] as $new){
                 foreach ($new as $name => $user) {
                     $player = $this->getServer()->getOfflinePlayer($name);
-                    $authData = new AuthSaveSystem($player, $user["password"], $user["cid"]);
+                    $authData = new AuthSaveSystem($player, $user["id"], $user["password"], $user["cid"]);
 
                     $authData->save();
                 }
@@ -73,9 +87,6 @@ class ApiManager extends PluginBase{
             $data = new DatabaseResult($result);
 
             foreach ($data->getData()["lang"] as $value){
-                //$name это ключ
-                //$lang это язык
-                //$item это значение
                 $key = $value["key"];
 
                 foreach ($value as $name => $info)

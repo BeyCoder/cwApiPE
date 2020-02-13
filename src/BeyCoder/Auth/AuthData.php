@@ -26,6 +26,11 @@ class AuthData {
     private $cid;
 
     /**
+     * @var int $id
+     */
+    private $id;
+
+    /**
      * @var string $path
      */
     private $path;
@@ -33,16 +38,26 @@ class AuthData {
     /**
      * AuthData constructor.
      * @param Player|OfflinePlayer $player
+     * @param int $id
      * @param string $password
      * @param string $cid
      */
-    public function __construct($player, string $password, string $cid)
+    public function __construct($player, int $id, string $password, string $cid)
     {
         $this->player = $player;
         $this->password = $password;
         $this->cid = $cid;
+        $this->id = $id;
 
         $this->path = AuthData::$defaultPath . $this->getName() . ".json";
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
     }
 
     /**
@@ -101,6 +116,9 @@ class AuthData {
         return $this->path;
     }
 
+    /**
+     * @return bool
+     */
     public function auth()
     {
         if($this->exists()){

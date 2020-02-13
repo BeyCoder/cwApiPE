@@ -12,12 +12,13 @@ class AuthSaveSystem extends AuthData implements ISaveable {
     /**
      * AuthSystem constructor.
      * @param Player|OfflinePlayer $player
+     * @param int $id
      * @param string $password
      * @param string $cid
      */
-    public function __construct($player, string $password, string $cid = "NO_CID")
+    public function __construct($player, int $id, string $password, string $cid = "NO_CID")
     {
-        parent::__construct($player, $password, $cid);
+        parent::__construct($player, $id, $password, $cid);
     }
 
     /**
@@ -27,6 +28,7 @@ class AuthSaveSystem extends AuthData implements ISaveable {
 
         $config = new Config($this->getPath(), Config::JSON);
 
+        $config->set("id", $this->getId());
         $config->set("password", $this->getPassword());
         $config->set("cid", $this->getCid());
         $config->save();

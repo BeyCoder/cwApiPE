@@ -3,6 +3,7 @@
 namespace BeyCoder\Auth;
 
 use BeyCoder\ApiManager;
+use Exception;
 use pocketmine\Player;
 
 class AuthManager {
@@ -80,13 +81,19 @@ class AuthManager {
     /**
      * @param $password
      * @return bool
+     *
+     * @throws Exception
      */
     public function login($password){
         $authData = new AuthData($this->getPlayer(), $password, $this->getPlayer()->getClientId());
 
-        if($authData->auth()){
-            $this->setLogged(true);
-            return true;
+        if($authData->exists()) {
+            if ($authData->auth()) {
+                $this->setLogged(true);
+                return true;
+            }
+        }else{
+            throw new Exception("User is not registred", 404);
         }
 
         return false;

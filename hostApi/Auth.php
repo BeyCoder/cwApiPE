@@ -14,13 +14,19 @@ class Auth
      */
     public static function getAllData()
     {
+        /*$user = R::dispense("users");
+        $user->login = "beycoder";
+        $user->password = "lol";
+        $user->cid = "no_cid";
+        R::store($user);*/
+
         $users = R::findAll("users");
 
         $result = array();
 
         if($users){
             foreach ($users as $user){
-                $data[$user->login] = ["password" => $user->password, "cid" => $user->cid];
+                $data[$user->login] = ["id" => $user->id,"password" => $user->password, "cid" => $user->cid];
                 $result["users"][] = $data;
             }
         }else{
