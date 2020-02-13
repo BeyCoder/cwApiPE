@@ -34,7 +34,7 @@ class AsyncURLTask extends AsyncTask {
      */
     private $resultMethod;
 
-    public function __construct(string $host, string $api_path, string $api_key, string $method, string $resultMethod)
+    public function __construct(string $host, string $api_path, string $api_key, string $method, string $resultMethod = "")
     {
         $this->host = $host;
         $this->api_path = $api_path;
@@ -63,6 +63,8 @@ class AsyncURLTask extends AsyncTask {
          */
         $resultMethod = $this->resultMethod;
         $plugin = $server->getPluginManager()->getPlugin("cwApiPE");
+
+        if($resultMethod == "") return;
         $plugin->$resultMethod($this->getResult());
     }
 }

@@ -14,12 +14,6 @@ class Auth
      */
     public static function getAllData()
     {
-        /*$user = R::dispense("users");
-        $user->login = "beycoder";
-        $user->password = "lol";
-        $user->cid = "no_cid";
-        R::store($user);*/
-
         $users = R::findAll("users");
 
         $result = array();
@@ -35,5 +29,24 @@ class Auth
 
         $result = json_encode($result);
         return $result;
+    }
+
+    public static function createUser(string $login, string $password, string $cid)
+    {
+        $user = R::findOne('users', "login = ?", array(trim(strtolower($login))));
+        if(!$user) {
+            $user = R::dispense("users");
+            $user->login = $login;
+            $user->password = $password;
+            $user->cid = $cid;
+            $user->ip = $_SERVER['REMOTE_ADDR'];
+            $user->reg_time = time();
+            $user->rub = 0;
+            $user->maxrub = 0;
+            R::store($user);
+            $result["success"] = ["code" => 0, "success_message" => "User is registered!"];
+        }else{
+            $result["error"] = ["code" => 701, "error_message" => "User is already registered"];
+        }
     }
 }
