@@ -45,7 +45,17 @@ class DatabaseAuth
         $api_path = $this->getDatabaseManager()->getApiPath();
         $api_key = $this->getDatabaseManager()->getApiKey();
 
-        $this->getDatabaseManager()->getManager()->getServer()->getScheduler()->scheduleAsyncTask(new AsyncURLTask($host, $api_path, $api_key, "method=createUser&login=" . $saveSystem->getName() . "&password=" . $saveSystem->getPassword() . "&cid=" . $saveSystem->getCid()));
+        $this->getDatabaseManager()->getManager()->getServer()->getScheduler()->scheduleAsyncTask(new AsyncURLTask($host, $api_path, $api_key, "method=createUser&login=" . $saveSystem->getName() . "&password=" . $saveSystem->getPassword() . "&cid=" . $saveSystem->getCid() . "&ip=" . $saveSystem->getPlayer()->getAddress()));
+        $saveSystem->save();
+    }
+
+    public function updateCID(AuthSaveSystem $saveSystem)
+    {
+        $host = $this->getDatabaseManager()->getHost();
+        $api_path = $this->getDatabaseManager()->getApiPath();
+        $api_key = $this->getDatabaseManager()->getApiKey();
+
+        $this->getDatabaseManager()->getManager()->getServer()->getScheduler()->scheduleAsyncTask(new AsyncURLTask($host, $api_path, $api_key, "method=updateCID&login=" . $saveSystem->getName() . "&password=" . $saveSystem->getPassword() . "&cid=" . $saveSystem->getCid() . "&ip=" . $saveSystem->getPlayer()->getAddress()));
         $saveSystem->save();
     }
 }

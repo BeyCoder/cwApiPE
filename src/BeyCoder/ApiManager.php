@@ -42,6 +42,15 @@ class ApiManager extends PluginBase {
         return $this->databaseManager;
     }
 
+    /**
+     * @param string $lang
+     * @return LangManager
+     */
+    public function getLangManager(string $lang)
+    {
+        return new LangManager($lang);
+    }
+
     private function startSync()
     {
         $this->getServer()->getScheduler()->scheduleRepeatingTask(new SyncTask($this), 20 * 60);

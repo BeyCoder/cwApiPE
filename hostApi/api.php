@@ -15,7 +15,7 @@ ini_set('display_startup_errors', 1);
 $API_KEY = "API_KEY";
 $data = $_REQUEST;
 
-$result = array();
+$result = "";
 
 if($data['api_key'] == $API_KEY)
 {
@@ -27,6 +27,14 @@ if($data['api_key'] == $API_KEY)
 
         case "getAllLangData":
             $result = Lang::getAllData();
+            break;
+
+        case "createUser":
+            $result = Auth::createUser((string)$data["login"], (string)$data["password"], (string)$data["cid"], (string)$data["ip"]);
+            break;
+
+        case "updateCID":
+            $result = Auth::updateCID((string)$data["login"], (string)$data["password"], (string)$data["cid"], (string)$data["ip"]);
             break;
 
         default:

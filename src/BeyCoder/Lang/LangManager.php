@@ -2,6 +2,7 @@
 
 namespace BeyCoder\Lang;
 
+use BeyCoder\HostAPI\Lang;
 use pocketmine\utils\Config;
 
 class LangManager
@@ -40,21 +41,33 @@ class LangManager
     /**
      * @param string $key
      *
-     * @return string|bool
+     * @return string
      */
     public function get(string $key)
     {
+        $error = new Config(LangData::$defaultPath . "NO_DATA.json", Config::JSON);
         $data = new LangData($this->getLang());
         if($data->exists())
         {
              $config = new Config($data->getPath(), Config::JSON);
              if($config->exists($key)) {
                  $value = $config->get($key);
+
+                 if($error->exists($key . "_" . $this->getLang()))
+                 {
+                     $error->remove($key . "_" . $this->getLang());
+                     $error->save();
+                 }
                  return $value;
              }else{
-                 return false;
+                 $error->set($key . "_" . $this->getLang(), "required!");
+                 $error->save();
+                 return $key;
              }
         }
-        return false;
+
+        $error->set($key . "_" . $this->getLang(), "required!");
+        $error->save();
+        return $key . "_" . $this->getLang();
     }
 }

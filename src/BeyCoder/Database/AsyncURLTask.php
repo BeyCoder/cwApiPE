@@ -45,6 +45,7 @@ class AsyncURLTask extends AsyncTask {
 
     public function getFullHost() : string
     {
+        $this->method = urldecode($this->method);
         return "http://" . $this->host . $this->api_path . "?api_key=" . $this->api_key . "&" . $this->method;
     }
 

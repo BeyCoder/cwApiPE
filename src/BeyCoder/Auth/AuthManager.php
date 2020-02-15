@@ -85,7 +85,7 @@ class AuthManager {
      * @throws Exception
      */
     public function login($password){
-        $authData = new AuthData($this->getPlayer(), $password, $this->getPlayer()->getClientId());
+        $authData = new AuthData($this->getPlayer(), -1, $password, $this->getPlayer()->getClientId());
 
         if($authData->exists()) {
             if ($authData->auth()) {
