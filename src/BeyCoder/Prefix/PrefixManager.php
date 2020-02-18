@@ -4,6 +4,7 @@ namespace BeyCoder\Prefix;
 
 use BeyCoder\ApiManager;
 use pocketmine\Player;
+use pocketmine\utils\Config;
 
 class PrefixManager
 {
@@ -48,5 +49,16 @@ class PrefixManager
     public function getManager(): ApiManager
     {
         return $this->manager;
+    }
+
+    /**
+     * @return bool|mixed
+     */
+    public function getPrefix()
+    {
+        $data = new PrefixData($this->getPlayer());
+
+        $config = new Config($data->getPath(), Config::JSON);
+        return $config->get("prefix");
     }
 }
