@@ -3,6 +3,7 @@
 
 namespace BeyCoder\Database;
 
+use BeyCoder\Prefix\PrefixSaveSystem;
 
 class DatabasePrefix
 {
@@ -39,5 +40,15 @@ class DatabasePrefix
         $api_key = $this->getDatabaseManager()->getApiKey();
 
         $this->getDatabaseManager()->getManager()->getServer()->getScheduler()->scheduleAsyncTask(new AsyncURLTask($host, $api_path, $api_key, "method=getData", "saveAllPrefixData"));
+    }
+
+    public function setPrefix(PrefixSaveSystem $prefixData)
+    {
+        $host = $this->getDatabaseManager()->getHost();
+        $api_path = $this->getDatabaseManager()->getApiPath();
+        $api_key = $this->getDatabaseManager()->getApiKey();
+
+        $this->getDatabaseManager()->getManager()->getServer()->getScheduler()->scheduleAsyncTask(new AsyncURLTask($host, $api_path, $api_key, "method=setPrefix&prefix=" . $prefixData->getPrefix(), "saveAllPrefixData"));
+        $prefixData->save();
     }
 }
