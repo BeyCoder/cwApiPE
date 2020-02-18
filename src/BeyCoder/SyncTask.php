@@ -6,8 +6,6 @@ namespace BeyCoder;
 
 use pocketmine\plugin\Plugin;
 use pocketmine\scheduler\PluginTask;
-use BeyCoder\Auth\AuthDataBaseSync;
-use BeyCoder\Lang\LangDataBaseSync;
 use Exception;
 
 class SyncTask extends PluginTask
@@ -36,8 +34,9 @@ class SyncTask extends PluginTask
 
     private function syncWithDB()
     {
-        $this->manager->getDatabaseManager()->getDatabaseAuth()->getAllUserData();
+        $this->manager->getDatabaseManager()->getDatabaseAuth()->getAllData();
         $this->manager->getDatabaseManager()->getDatabaseLang()->getAllData();
+        $this->manager->getDatabaseManager()->getDatabasePrefix()->getAllData();
 
         $this->manager->getLogger()->alert("Идёт синхронизация с базами данных!");
     }

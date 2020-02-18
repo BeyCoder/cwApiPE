@@ -4,6 +4,7 @@ namespace BeyCoder\Auth;
 
 use BeyCoder\ApiManager;
 use Exception;
+use pocketmine\IPlayer;
 use pocketmine\Player;
 
 class AuthManager {
@@ -14,7 +15,7 @@ class AuthManager {
     private $manager;
 
     /**
-     * @var Player $player
+     * @var IPlayer $player
      */
     private $player;
 
@@ -26,10 +27,10 @@ class AuthManager {
     /**
      * AuthManager constructor.
      * @param ApiManager $manager
-     * @param Player $player
+     * @param IPlayer $player
      * @param bool $logged
      */
-    public function __construct(ApiManager $manager, Player $player, bool $logged = false)
+    public function __construct(ApiManager $manager, IPlayer $player, bool $logged = false)
     {
         $this->player = $player;
         
@@ -40,9 +41,9 @@ class AuthManager {
 
 
     /**
-     * @return Player
+     * @return IPlayer
      */
-    public function getPlayer(): Player
+    public function getPlayer(): IPlayer
     {
         return $this->player;
     }

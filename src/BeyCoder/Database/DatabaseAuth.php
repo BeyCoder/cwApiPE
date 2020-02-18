@@ -34,7 +34,7 @@ class DatabaseAuth
         return $this->databaseManager;
     }
 
-    public function getAllUserData()
+    public function getAllData()
     {
         $this->getDatabaseManager()->getManager()->getServer()->getScheduler()->scheduleAsyncTask(new AsyncURLTask($this->getDatabaseManager()->getHost(), $this->getDatabaseManager()->getApiPath(), $this->getDatabaseManager()->getApiKey(), "method=getAllAuthData", "saveAllUserData"));
     }

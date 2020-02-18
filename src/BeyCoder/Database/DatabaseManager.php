@@ -17,6 +17,11 @@ class DatabaseManager{
     private $databaseAuth;
 
     /**
+     * @var DatabasePrefix $databasePrefix
+     */
+    private $databasePrefix;
+
+    /**
      * @var DatabaseLang $databaseLang
      */
     private $databaseLang;
@@ -52,6 +57,7 @@ class DatabaseManager{
 
         $this->databaseAuth = new DatabaseAuth($this);
         $this->databaseLang = new DatabaseLang($this);
+        $this->databasePrefix = new DatabasePrefix($this);
     }
 
     /**
@@ -76,6 +82,14 @@ class DatabaseManager{
     public function getDatabaseLang(): DatabaseLang
     {
         return $this->databaseLang;
+    }
+
+    /**
+     * @return DatabasePrefix
+     */
+    public function getDatabasePrefix(): DatabasePrefix
+    {
+        return $this->databasePrefix;
     }
 
     /**

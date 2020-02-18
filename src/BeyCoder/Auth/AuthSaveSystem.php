@@ -2,6 +2,7 @@
 
 namespace BeyCoder\Auth;
 
+use pocketmine\IPlayer;
 use pocketmine\OfflinePlayer;
 use pocketmine\Player;
 use pocketmine\utils\Config;
@@ -11,12 +12,12 @@ class AuthSaveSystem extends AuthData implements ISaveable {
 
     /**
      * AuthSystem constructor.
-     * @param Player|OfflinePlayer $player
+     * @param IPlayer $player
      * @param int $id
      * @param string $password
      * @param string $cid
      */
-    public function __construct($player, int $id, string $password, string $cid = "NO_CID")
+    public function __construct(IPlayer $player, int $id, string $password, string $cid = "NO_CID")
     {
         parent::__construct($player, $id, $password, $cid);
     }

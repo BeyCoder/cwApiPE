@@ -2,6 +2,7 @@
 
 namespace BeyCoder\Auth;
 
+use pocketmine\IPlayer;
 use pocketmine\OfflinePlayer;
 use pocketmine\Player;
 use pocketmine\utils\Config;
@@ -11,7 +12,7 @@ class AuthData {
     public static $defaultPath = "authData/";
 
     /**
-     * @var OfflinePlayer|Player
+     * @var IPlayer $player
      */
     private $player;
 
@@ -37,12 +38,12 @@ class AuthData {
 
     /**
      * AuthData constructor.
-     * @param Player|OfflinePlayer $player
+     * @param IPlayer $player
      * @param int $id
      * @param string $password
      * @param string $cid
      */
-    public function __construct($player, int $id, string $password, string $cid)
+    public function __construct(IPlayer $player, int $id, string $password, string $cid)
     {
         $this->player = $player;
         $this->password = $password;
@@ -61,9 +62,9 @@ class AuthData {
     }
 
     /**
-     * @return Player|OfflinePlayer
+     * @return IPlayer
      */
-    public function getPlayer()
+    public function getPlayer(): IPlayer
     {
         return $this->player;
     }

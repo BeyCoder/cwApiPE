@@ -6,6 +6,7 @@ use BeyCoder\Auth\AuthSaveSystem;
 use BeyCoder\Database\AsyncURLTask;
 use BeyCoder\Database\DatabaseResult;
 use BeyCoder\Lang\LangSaveSystem;
+use BeyCoder\Prefix\PrefixManager;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\Player;
@@ -28,6 +29,7 @@ class ApiManager extends PluginBase {
 
         AuthManager::initializePath();
         LangManager::initializePath();
+        PrefixManager::initializePath();
 
         $this->databaseManager = new DatabaseManager($this, "localhost", "api.php", "API_KEY");
 
@@ -105,5 +107,10 @@ class ApiManager extends PluginBase {
             $this->getLogger()->critical("Ошибка: " . $exception->getMessage());
         }
 
+    }
+
+    public function saveAllPrefixData($result)
+    {
+        $this->getLogger()->info("[PrefixDB] " . $result);
     }
 }
