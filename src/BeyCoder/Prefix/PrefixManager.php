@@ -3,6 +3,7 @@
 namespace BeyCoder\Prefix;
 
 use BeyCoder\ApiManager;
+use pocketmine\IPlayer;
 use pocketmine\Player;
 use pocketmine\utils\Config;
 
@@ -15,16 +16,16 @@ class PrefixManager
     private $manager;
 
     /**
-     * @var Player $player
+     * @var IPlayer $player
      */
     private $player;
 
     /**
      * PrefixManager constructor.
      * @param ApiManager $manager
-     * @param Player $player
+     * @param IPlayer $player
      */
-    public function __construct(ApiManager $manager, Player $player)
+    public function __construct(ApiManager $manager, IPlayer $player)
     {
         $this->manager = $manager;
         $this->player = $player;
@@ -36,9 +37,9 @@ class PrefixManager
     }
 
     /**
-     * @return Player
+     * @return IPlayer
      */
-    public function getPlayer(): Player
+    public function getPlayer(): IPlayer
     {
         return $this->player;
     }

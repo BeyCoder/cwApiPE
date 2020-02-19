@@ -11,6 +11,7 @@ use BeyCoder\Prefix\PrefixManager;
 use BeyCoder\Prefix\PrefixSaveSystem;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
+use pocketmine\IPlayer;
 use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 use BeyCoder\Auth\AuthManager;
@@ -56,10 +57,10 @@ class ApiManager extends PluginBase {
     }
 
     /**
-     * @param Player $player
+     * @param IPlayer $player
      * @return PrefixManager
      */
-    public function getPrefixManager(Player $player)
+    public function getPrefixManager(IPlayer $player)
     {
         return new PrefixManager($this, $player);
     }
