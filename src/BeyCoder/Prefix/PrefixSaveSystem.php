@@ -40,5 +40,6 @@ class PrefixSaveSystem extends PrefixData implements ISaveable
         $config = new Config($this->getPath(), Config::JSON);
 
         $config->set("prefix", $this->getPrefix());
+        $config->save();
     }
 }

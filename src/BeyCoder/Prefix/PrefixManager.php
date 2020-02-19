@@ -52,6 +52,14 @@ class PrefixManager
     }
 
     /**
+     * @param string $prefix
+     */
+    public function setPrefix(string $prefix)
+    {
+        $this->getManager()->getDatabaseManager()->getDatabasePrefix()->setPrefix(new PrefixSaveSystem($this->getPlayer(), $prefix));
+    }
+
+    /**
      * @return bool|mixed
      */
     public function getPrefix()
@@ -59,6 +67,6 @@ class PrefixManager
         $data = new PrefixData($this->getPlayer());
 
         $config = new Config($data->getPath(), Config::JSON);
-        return $config->get("prefix");
+        return $config->get("prefix") . "§r";
     }
 }

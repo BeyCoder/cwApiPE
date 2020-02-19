@@ -7,6 +7,7 @@ use BeyCoder\Database\AsyncURLTask;
 use BeyCoder\Database\DatabaseResult;
 use BeyCoder\Lang\LangSaveSystem;
 use BeyCoder\Prefix\PrefixManager;
+use BeyCoder\Prefix\PrefixSaveSystem;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\Player;
@@ -51,6 +52,15 @@ class ApiManager extends PluginBase {
     public function getLangManager(string $lang)
     {
         return new LangManager($lang);
+    }
+
+    /**
+     * @param Player $player
+     * @return PrefixManager
+     */
+    public function getPrefixManager(Player $player)
+    {
+        return new PrefixManager($this, $player);
     }
 
     private function startSync()
@@ -111,6 +121,22 @@ class ApiManager extends PluginBase {
 
     public function saveAllPrefixData($result)
     {
-        $this->getLogger()->info("[PrefixDB] " . $result);
+        try {
+            $data = new DatabaseResult($result);
+
+            foreach ($data->getData()["users"] as $new){
+                foreach ($new as $name => $user) {
+                    $player = $this->getServer()->getOfflinePlayer($name);
+                    $authData = new PrefixSaveSystem($player, $user["prefix"]);
+
+                    $authData->save();
+                }
+            }
+
+            $this->getLogger()->info("Синхронизация системы префиксов прошла успешно!");
+        }catch (Exception $exception){
+            $this->getLogger()->critical("Произошла ошибка во время синхронизации базы данных системы префиксов!");
+            $this->getLogger()->critical("Ошибка: " . $exception->getMessage());
+        }
     }
 }

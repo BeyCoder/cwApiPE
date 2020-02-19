@@ -4,9 +4,11 @@ namespace BeyCoder;
 
 include_once "Auth.php";
 include_once "Lang.php";
+include_once "Prefix.php";
 
 use BeyCoder\HostAPI\Auth;
 use BeyCoder\HostAPI\Lang;
+use BeyCoder\HostAPI\Prefix;
 
 ini_set('error_reporting', E_ALL);
 ini_set('display_errors', 1);
@@ -35,6 +37,14 @@ if($data['api_key'] == $API_KEY)
 
         case "updateCID":
             $result = Auth::updateCID((string)$data["login"], (string)$data["password"], (string)$data["cid"], (string)$data["ip"]);
+            break;
+
+        case "getAllPrefixData":
+            $result = Prefix::getAllData();
+            break;
+
+        case "setPrefix":
+            $result = Prefix::setPrefix((string)$data["login"], (string)$data["prefix"]);
             break;
 
         default:
