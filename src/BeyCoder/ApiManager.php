@@ -6,6 +6,7 @@ use BeyCoder\Auth\AuthSaveSystem;
 use BeyCoder\Database\AsyncURLTask;
 use BeyCoder\Database\DatabaseResult;
 use BeyCoder\Lang\LangSaveSystem;
+use BeyCoder\Prefix\PlayerPrefixChangeEvent;
 use BeyCoder\Prefix\PrefixManager;
 use BeyCoder\Prefix\PrefixSaveSystem;
 use pocketmine\event\Listener;
@@ -127,6 +128,9 @@ class ApiManager extends PluginBase {
             foreach ($data->getData()["users"] as $new){
                 foreach ($new as $name => $user) {
                     $player = $this->getServer()->getOfflinePlayer($name);
+
+                    if($this->getPrefixManager($player)->getPrefix() != $user["prefix"]) $this->getServer()->getPluginManager()->callEvent(new PlayerPrefixChangeEvent($player, $user["prefix"]));
+
                     $authData = new PrefixSaveSystem($player, $user["prefix"]);
 
                     $authData->save();
