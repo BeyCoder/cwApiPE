@@ -27,6 +27,11 @@ class DatabaseManager{
     private $databaseLang;
 
     /**
+     * @var DatabaseEconomy $databaseEconomy
+     */
+    private $databaseEconomy;
+
+    /**
      * @var string $host
      */
     private $host;
@@ -58,6 +63,7 @@ class DatabaseManager{
         $this->databaseAuth = new DatabaseAuth($this);
         $this->databaseLang = new DatabaseLang($this);
         $this->databasePrefix = new DatabasePrefix($this);
+        $this->databaseEconomy = new DatabaseEconomy($this);
     }
 
     /**
@@ -90,6 +96,14 @@ class DatabaseManager{
     public function getDatabasePrefix(): DatabasePrefix
     {
         return $this->databasePrefix;
+    }
+
+    /**
+     * @return DatabaseEconomy
+     */
+    public function getDatabaseEconomy(): DatabaseEconomy
+    {
+        return $this->databaseEconomy;
     }
 
     /**

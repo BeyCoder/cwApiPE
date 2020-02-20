@@ -3,16 +3,14 @@
 namespace BeyCoder;
 
 use BeyCoder\Auth\AuthSaveSystem;
-use BeyCoder\Database\AsyncURLTask;
 use BeyCoder\Database\DatabaseResult;
+use BeyCoder\Economy\EconomyManager;
+use BeyCoder\Economy\EconomySaveSystem;
 use BeyCoder\Lang\LangSaveSystem;
 use BeyCoder\Prefix\PlayerPrefixChangeEvent;
 use BeyCoder\Prefix\PrefixManager;
 use BeyCoder\Prefix\PrefixSaveSystem;
-use pocketmine\event\Listener;
-use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\IPlayer;
-use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 use BeyCoder\Auth\AuthManager;
 use BeyCoder\Lang\LangManager;
@@ -33,6 +31,7 @@ class ApiManager extends PluginBase {
         AuthManager::initializePath();
         LangManager::initializePath();
         PrefixManager::initializePath();
+        EconomyManager::initializePath();
 
         $this->databaseManager = new DatabaseManager($this, "localhost", "api.php", "API_KEY");
 
@@ -91,6 +90,29 @@ class ApiManager extends PluginBase {
             $this->getLogger()->critical("Ошибка: " . $exception->getMessage());
         }
     }
+
+    public function saveAllEconomyData($result)
+    {
+        try {
+            $data = new DatabaseResult($result);
+
+            foreach ($data->getData()["users"] as $new){
+                foreach ($new as $name => $user) {
+                    $player = new PlayerData($name);
+                    $authData = new EconomySaveSystem($player, (int)$user["money"], (int)$user["rub"]);
+
+                    $authData->save();
+                }
+            }
+
+            $this->getLogger()->info("Синхронизация системы экономики прошла успешно!");
+
+        }catch (Exception $exception){
+            $this->getLogger()->critical("Произошла ошибка во время синхронизации базы данных экономики!");
+            $this->getLogger()->critical("Ошибка: " . $exception->getMessage());
+        }
+    }
+
 
     public function saveAllLangData($result)
     {

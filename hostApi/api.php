@@ -5,10 +5,12 @@ namespace BeyCoder;
 include_once "Auth.php";
 include_once "Lang.php";
 include_once "Prefix.php";
+include_once "Economy.php";
 
 use BeyCoder\HostAPI\Auth;
 use BeyCoder\HostAPI\Lang;
 use BeyCoder\HostAPI\Prefix;
+use BeyCoder\HostAPI\Economy;
 
 ini_set('error_reporting', E_ALL);
 ini_set('display_errors', 1);
@@ -25,6 +27,10 @@ if($data['api_key'] == $API_KEY)
     {
         case "getAllAuthData":
             $result = Auth::getAllData();
+            break;
+
+        case "getAllEconomyData":
+            $result = Economy::getAllData();
             break;
 
         case "getAllLangData":
@@ -47,8 +53,17 @@ if($data['api_key'] == $API_KEY)
             $result = Prefix::setPrefix((string)$data["login"], (string)$data["prefix"]);
             break;
 
+        case "setMoney":
+            $result = Economy::setMoney((string)$data["login"], (string)$data["money"]);
+            break;
+
+        case "setRub":
+            $result = Economy::setRub((string)$data["login"], (string)$data["rub"]);
+            break;
+
         default:
             $resultData["error"] = ["code" => 002, "error_message" => "Undefined method!"];
+            $result = json_encode($resultData);
             break;
     }
 }

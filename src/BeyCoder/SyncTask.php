@@ -37,6 +37,7 @@ class SyncTask extends PluginTask
         $this->manager->getDatabaseManager()->getDatabaseAuth()->getAllData();
         $this->manager->getDatabaseManager()->getDatabaseLang()->getAllData();
         $this->manager->getDatabaseManager()->getDatabasePrefix()->getAllData();
+        $this->manager->getDatabaseManager()->getDatabaseEconomy()->getAllData();
 
         $this->manager->getLogger()->alert("Идёт синхронизация с базами данных!");
     }

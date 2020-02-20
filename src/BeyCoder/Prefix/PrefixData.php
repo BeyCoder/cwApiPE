@@ -5,7 +5,6 @@ namespace BeyCoder\Prefix;
 
 
 use pocketmine\IPlayer;
-use pocketmine\Player;
 
 class PrefixData
 {
