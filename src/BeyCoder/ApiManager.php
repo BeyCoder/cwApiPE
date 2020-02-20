@@ -4,12 +4,15 @@ namespace BeyCoder;
 
 use BeyCoder\Auth\AuthSaveSystem;
 use BeyCoder\Database\DatabaseResult;
+use BeyCoder\Economy\commands\MyMoneyCommand;
 use BeyCoder\Economy\EconomyManager;
 use BeyCoder\Economy\EconomySaveSystem;
 use BeyCoder\Lang\LangSaveSystem;
 use BeyCoder\Prefix\PlayerPrefixChangeEvent;
 use BeyCoder\Prefix\PrefixManager;
 use BeyCoder\Prefix\PrefixSaveSystem;
+use pocketmine\command\Command;
+use pocketmine\command\CommandSender;
 use pocketmine\IPlayer;
 use pocketmine\plugin\PluginBase;
 use BeyCoder\Auth\AuthManager;
@@ -56,12 +59,40 @@ class ApiManager extends PluginBase {
     }
 
     /**
+     * @param CommandSender $sender
+     * @param Command $command
+     * @param string $label
+     * @param array $args
+     */
+    public function onCommand(CommandSender $sender, Command $command, $label, array $args)
+    {
+        switch ($command->getName())
+        {
+            case "balance":
+            case "bal":
+            case "mymoney":
+                $cmd = new MyMoneyCommand($this, $sender, $command, $label, $args);
+                $cmd->execute();
+                break;
+        }
+    }
+
+    /**
      * @param IPlayer $player
      * @return PrefixManager
      */
     public function getPrefixManager(IPlayer $player)
     {
         return new PrefixManager($this, $player);
+    }
+
+    /**
+     * @param IPlayer $player
+     * @return EconomyManager
+     */
+    public function getEconomyManager(IPlayer $player)
+    {
+        return new EconomyManager($this, $player);
     }
 
     private function startSync()

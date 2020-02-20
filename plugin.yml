@@ -5,3 +5,11 @@ main: BeyCoder\ApiManager
 api:
   - 2.0.0
   - 3.0.0
+
+commands:
+  mymoney:
+    default: true
+  bal:
+    default: true
+  balance:
+    default: true

@@ -4,7 +4,6 @@ namespace BeyCoder\Prefix;
 
 use BeyCoder\ApiManager;
 use pocketmine\IPlayer;
-use pocketmine\Player;
 use pocketmine\utils\Config;
 
 class PrefixManager
