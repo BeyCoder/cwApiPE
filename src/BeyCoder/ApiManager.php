@@ -77,7 +77,7 @@ class ApiManager extends PluginBase {
 
             foreach ($data->getData()["users"] as $new){
                 foreach ($new as $name => $user) {
-                    $player = $this->getServer()->getOfflinePlayer($name);
+                    $player = new PlayerData($name);
                     $authData = new AuthSaveSystem($player, $user["id"], $user["password"], $user["cid"]);
 
                     $authData->save();
@@ -118,7 +118,6 @@ class ApiManager extends PluginBase {
             $this->getLogger()->critical("Произошла ошибка во время синхронизации базы данных языковой системы!");
             $this->getLogger()->critical("Ошибка: " . $exception->getMessage());
         }
-
     }
 
     public function saveAllPrefixData($result)
@@ -128,12 +127,12 @@ class ApiManager extends PluginBase {
 
             foreach ($data->getData()["users"] as $new){
                 foreach ($new as $name => $user) {
-                    $player = $this->getServer()->getOfflinePlayer($name);
+                    $player = new PlayerData($name);
+
 
                     if($this->getPrefixManager($player)->getPrefix() != $user["prefix"]) $this->getServer()->getPluginManager()->callEvent(new PlayerPrefixChangeEvent($player, $user["prefix"]));
 
                     $authData = new PrefixSaveSystem($player, $user["prefix"]);
-
                     $authData->save();
                 }
             }
