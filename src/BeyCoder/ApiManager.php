@@ -182,8 +182,11 @@ class ApiManager extends PluginBase {
                 foreach ($new as $name => $user) {
                     $player = new PlayerData($name);
 
-
-                    if($this->getPrefixManager($player)->getPrefix() != $user["prefix"]) $this->getServer()->getPluginManager()->callEvent(new PlayerPrefixChangeEvent($player, $user["prefix"]));
+                    foreach ($this->getServer()->getOnlinePlayers() as $onlinePlayer) {
+                        if($this->getPrefixManager($onlinePlayer)->getPrefix() != $user["prefix"] && strtolower($onlinePlayer->getName()) == $name){
+                            $this->getServer()->getPluginManager()->callEvent(new PlayerPrefixChangeEvent($onlinePlayer, $user["prefix"]));
+                        }
+                    }
 
                     $authData = new PrefixSaveSystem($player, $user["prefix"]);
                     $authData->save();
