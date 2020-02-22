@@ -58,7 +58,7 @@ if($data['api_key'] == $API_KEY)
             break;
 
         case "setGroup":
-            $result = Prefix::setPrefix((string)$data["login"], (string)$data["groupName"]);
+            $result = Groups::setGroup((string)$data["login"], (string)$data["groupName"]);
             break;
 
         case "setMoney":

@@ -29,7 +29,7 @@ class GroupsData
     public function __construct(IPlayer $player)
     {
         $this->player = $player;
-        $this->path = PrefixData::$defaultPath . $this->getName() . ".json";
+        $this->path = GroupsData::$defaultPath . $this->getName() . ".json";
     }
 
     /**

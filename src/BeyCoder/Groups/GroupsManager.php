@@ -4,7 +4,6 @@ namespace BeyCoder\Groups;
 
 use _64FF00\PurePerms\PPGroup;
 use BeyCoder\ApiManager;
-use BeyCoder\Prefix\PlayerGroupChangeEvent;
 use BeyCoder\Prefix\PrefixData;
 use pocketmine\IPlayer;
 use pocketmine\utils\Config;

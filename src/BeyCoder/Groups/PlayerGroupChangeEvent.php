@@ -1,7 +1,7 @@
 <?php
 
 
-namespace BeyCoder\Prefix;
+namespace BeyCoder\Groups;
 
 
 use pocketmine\event\player\PlayerEvent;

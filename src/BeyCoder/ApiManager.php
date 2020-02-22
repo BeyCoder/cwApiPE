@@ -12,6 +12,7 @@ use BeyCoder\Economy\EconomyManager;
 use BeyCoder\Economy\EconomySaveSystem;
 use BeyCoder\Groups\GroupsManager;
 use BeyCoder\Groups\GroupsSaveSystem;
+use BeyCoder\Groups\PlayerGroupChangeEvent;
 use BeyCoder\Lang\LangSaveSystem;
 use BeyCoder\Prefix\PlayerPrefixChangeEvent;
 use BeyCoder\Prefix\PrefixManager;
@@ -224,12 +225,23 @@ class ApiManager extends PluginBase {
                 foreach ($new as $name => $user) {
                     $player = new PlayerData($name);
 
-                    foreach ($this->getServer()->getOnlinePlayers() as $onlinePlayer)
+
+                    //TODO: optimization needed!
+                    /*foreach ($this->getServer()->getOnlinePlayers() as $onlinePlayer)
                     {
-                        if($this->getGroupsManager($onlinePlayer)->getGroupName() != $user["groupName"] && strtolower($onlinePlayer->getName()) == $name){
-                            $this->getGroupsManager($onlinePlayer)->setGroup($user["groupName"]);
+                        if(strtolower($onlinePlayer->getName()) != $name) continue;
+
+                        var_dump($this->getGroupsManager($onlinePlayer)->getGroupName());
+
+                        if($this->getGroupsManager($onlinePlayer)->getGroupName() != $user["groupName"]){
+                            $this->getServer()->getPluginManager()->callEvent(new PlayerGroupChangeEvent($onlinePlayer, $user["groupName"]));
+
+                            $this->getLogger()->info($onlinePlayer->getName());
+
+                            $group = $this->getPurePerms()->getGroup($user["groupName"]);
+                            $this->getPurePerms()->setGroup($onlinePlayer, $group);
                         }
-                    }
+                    }*/
 
                     $authData = new GroupsSaveSystem($player, $user["groupName"]);
                     $authData->save();

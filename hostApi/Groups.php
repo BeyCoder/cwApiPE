@@ -20,10 +20,6 @@ class Groups
 
         if($users){
             foreach ($users as $user){
-
-                $user->groupName_server_1 = "Guest";
-                R::store($user);
-
                 $data[$user->login] = ["groupName" => $user->groupName_server_1];
                 $result["users"][] = $data;
             }
