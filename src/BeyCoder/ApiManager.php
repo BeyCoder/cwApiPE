@@ -225,26 +225,21 @@ class ApiManager extends PluginBase {
                 foreach ($new as $name => $user) {
                     $player = new PlayerData($name);
 
-
-                    //TODO: optimization needed!
-                    /*foreach ($this->getServer()->getOnlinePlayers() as $onlinePlayer)
-                    {
-                        if(strtolower($onlinePlayer->getName()) != $name) continue;
-
-                        var_dump($this->getGroupsManager($onlinePlayer)->getGroupName());
-
-                        if($this->getGroupsManager($onlinePlayer)->getGroupName() != $user["groupName"]){
-                            $this->getServer()->getPluginManager()->callEvent(new PlayerGroupChangeEvent($onlinePlayer, $user["groupName"]));
-
-                            $this->getLogger()->info($onlinePlayer->getName());
-
-                            $group = $this->getPurePerms()->getGroup($user["groupName"]);
-                            $this->getPurePerms()->setGroup($onlinePlayer, $group);
-                        }
-                    }*/
-
                     $authData = new GroupsSaveSystem($player, $user["groupName"]);
                     $authData->save();
+                }
+            }
+
+            foreach ($this->getServer()->getOnlinePlayers() as $onlinePlayer) {
+
+                $group = $this->getPurePerms()->getUserDataMgr()->getGroup($onlinePlayer);
+                $groupName = $this->getGroupsManager($onlinePlayer)->getGroupName();
+
+                if ($group->getName() != $groupName)
+                {
+                    $this->getServer()->getPluginManager()->callEvent(new PlayerGroupChangeEvent($onlinePlayer, $groupName));
+
+                    $this->getPurePerms()->setGroup($onlinePlayer, $this->getPurePerms()->getGroup($groupName));
                 }
             }
 

@@ -69,7 +69,7 @@ class GroupsManager{
      */
     public function getGroupName()
     {
-        $data = new PrefixData($this->getPlayer());
+        $data = new GroupsData($this->getPlayer());
 
         $config = new Config($data->getPath(), Config::JSON);
         return $config->get("groupName");
