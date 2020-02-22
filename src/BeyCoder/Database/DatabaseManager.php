@@ -47,23 +47,83 @@ class DatabaseManager{
     private $api_key;
 
     /**
+     * @var int $server
+     */
+    private $server;
+
+    /**
+     * @var string $serverName
+     */
+    private $serverName;
+
+    /**
+     * @var DatabaseGroups
+     */
+    private $databaseGroups;
+
+    /**
      * DatabaseManager constructor.
      * @param ApiManager $manager
      * @param string $host
      * @param string $api_path
      * @param string $api_key
+     * @param int $server
+     * @param string $serverName
      */
-    public function __construct(ApiManager $manager, $host = "localhost", $api_path = "", $api_key = "API_KEY")
+    public function __construct(ApiManager $manager, $host = "localhost", $api_path = "", $api_key = "API_KEY", $server = 0, $serverName = "Creative")
     {
         $this->manager = $manager;
         $this->setApiKey($api_key);
         $this->setApiPath($api_path);
         $this->setHost($host);
+        $this->setServer($server);
+        $this->setServerName($serverName);
 
         $this->databaseAuth = new DatabaseAuth($this);
         $this->databaseLang = new DatabaseLang($this);
         $this->databasePrefix = new DatabasePrefix($this);
         $this->databaseEconomy = new DatabaseEconomy($this);
+        $this->databaseGroups = new DatabaseGroups($this);
+    }
+
+    /**
+     * @return int
+     */
+    public function getServer(): int
+    {
+        return $this->server;
+    }
+
+    /**
+     * @return string
+     */
+    public function getServerName()
+    {
+        return $this->serverName;
+    }
+
+    /**
+     * @param int $server
+     */
+    public function setServer(int $server)
+    {
+        $this->server = $server;
+    }
+
+    /**
+     * @param string $serverName
+     */
+    public function setServerName($serverName)
+    {
+        $this->serverName = $serverName;
+    }
+
+    /**
+     * @return DatabaseGroups
+     */
+    public function getDatabaseGroups(): DatabaseGroups
+    {
+        return $this->databaseGroups;
     }
 
     /**

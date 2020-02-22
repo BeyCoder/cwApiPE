@@ -2,12 +2,18 @@
 
 namespace BeyCoder;
 
+use _64FF00\PurePerms\PurePerms;
 use BeyCoder\Auth\AuthSaveSystem;
 use BeyCoder\Database\DatabaseResult;
 use BeyCoder\Economy\commands\MyMoneyCommand;
+use BeyCoder\Economy\commands\PayCommand;
+use BeyCoder\Economy\commands\SeeMoneyCommand;
 use BeyCoder\Economy\EconomyManager;
 use BeyCoder\Economy\EconomySaveSystem;
+use BeyCoder\Groups\GroupsManager;
+use BeyCoder\Groups\GroupsSaveSystem;
 use BeyCoder\Lang\LangSaveSystem;
+use BeyCoder\Prefix\PlayerGroupChangeEvent;
 use BeyCoder\Prefix\PlayerPrefixChangeEvent;
 use BeyCoder\Prefix\PrefixManager;
 use BeyCoder\Prefix\PrefixSaveSystem;
@@ -27,6 +33,11 @@ class ApiManager extends PluginBase {
      */
     private $databaseManager;
 
+    /**
+     * @var PurePerms $pureperms
+     */
+    private $pureperms;
+
     public function onEnable()
     {
         $this->getLogger()->info("CoderWorld API система функционирует!");
@@ -35,10 +46,13 @@ class ApiManager extends PluginBase {
         LangManager::initializePath();
         PrefixManager::initializePath();
         EconomyManager::initializePath();
+        GroupsManager::initializePath();
 
         $this->databaseManager = new DatabaseManager($this, "localhost", "api.php", "API_KEY");
 
         $this->startSync();
+
+        $this->pureperms = $this->getServer()->getPluginManager()->getPlugin("PurePerms");
     }
 
     /**
@@ -47,6 +61,14 @@ class ApiManager extends PluginBase {
     public function getDatabaseManager() : DatabaseManager
     {
         return $this->databaseManager;
+    }
+
+    /**
+     * @return PurePerms
+     */
+    public function getPurePerms(): PurePerms
+    {
+        return $this->pureperms;
     }
 
     /**
@@ -72,6 +94,16 @@ class ApiManager extends PluginBase {
             case "bal":
             case "mymoney":
                 $cmd = new MyMoneyCommand($this, $sender, $command, $label, $args);
+                $cmd->execute();
+                break;
+
+            case "pay":
+                $cmd = new PayCommand($this, $sender, $command, $label, $args);
+                $cmd->execute();
+                break;
+
+            case "seemoney":
+                $cmd = new SeeMoneyCommand($this, $sender, $command, $label, $args);
                 $cmd->execute();
                 break;
         }
@@ -173,6 +205,35 @@ class ApiManager extends PluginBase {
         }
     }
 
+    public function saveAllGroupsData($result)
+    {
+        try {
+            $data = new DatabaseResult($result);
+
+            foreach ($data->getData()["users"] as $new){
+                foreach ($new as $name => $user) {
+                    $player = new PlayerData($name);
+
+                    //TODO: PlayerGroupChangeEvent calling
+                    /*foreach ($this->getServer()->getOnlinePlayers() as $onlinePlayer)
+                    {
+                        if($this->getPrefixManager($onlinePlayer)->getPrefix() != $user["groupName"] && strtolower($onlinePlayer->getName()) == $name){
+                            $this->getServer()->getPluginManager()->callEvent(new PlayerGroupChangeEvent($onlinePlayer, $user["prefix"]));
+                        }
+                    }*/
+
+                    $authData = new GroupsSaveSystem($player, $user["groupName"]);
+                    $authData->save();
+                }
+            }
+
+           $this->getLogger()->info("Синхронизация системы привилегий прошла успешно!");
+        }catch (Exception $exception){
+            $this->getLogger()->critical("Произошла ошибка во время синхронизации базы данных системы привилегий!");
+            $this->getLogger()->critical("Ошибка: " . $exception->getMessage());
+        }
+    }
+
     public function saveAllPrefixData($result)
     {
         try {
@@ -182,7 +243,8 @@ class ApiManager extends PluginBase {
                 foreach ($new as $name => $user) {
                     $player = new PlayerData($name);
 
-                    foreach ($this->getServer()->getOnlinePlayers() as $onlinePlayer) {
+                    foreach ($this->getServer()->getOnlinePlayers() as $onlinePlayer)
+                    {
                         if($this->getPrefixManager($onlinePlayer)->getPrefix() != $user["prefix"] && strtolower($onlinePlayer->getName()) == $name){
                             $this->getServer()->getPluginManager()->callEvent(new PlayerPrefixChangeEvent($onlinePlayer, $user["prefix"]));
                         }

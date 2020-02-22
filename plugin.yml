@@ -13,3 +13,7 @@ commands:
     default: true
   balance:
     default: true
+  pay:
+    default: true
+  seemoney:
+    default: true
