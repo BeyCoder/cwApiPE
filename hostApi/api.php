@@ -6,11 +6,13 @@ include_once "Auth.php";
 include_once "Lang.php";
 include_once "Prefix.php";
 include_once "Economy.php";
+include_once "Groups.php";
 
 use BeyCoder\HostAPI\Auth;
 use BeyCoder\HostAPI\Lang;
 use BeyCoder\HostAPI\Prefix;
 use BeyCoder\HostAPI\Economy;
+use BeyCoder\HostAPI\Groups;
 
 ini_set('error_reporting', E_ALL);
 ini_set('display_errors', 1);
@@ -18,8 +20,6 @@ ini_set('display_startup_errors', 1);
 
 $API_KEY = "API_KEY";
 $data = $_REQUEST;
-
-$result = "";
 
 if($data['api_key'] == $API_KEY)
 {
@@ -31,6 +31,10 @@ if($data['api_key'] == $API_KEY)
 
         case "getAllEconomyData":
             $result = Economy::getAllData();
+            break;
+
+        case "getAllGroupsData":
+            $result = Groups::getAllData();
             break;
 
         case "getAllLangData":
@@ -51,6 +55,10 @@ if($data['api_key'] == $API_KEY)
 
         case "setPrefix":
             $result = Prefix::setPrefix((string)$data["login"], (string)$data["prefix"]);
+            break;
+
+        case "setGroup":
+            $result = Prefix::setPrefix((string)$data["login"], (string)$data["groupName"]);
             break;
 
         case "setMoney":

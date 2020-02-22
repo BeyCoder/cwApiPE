@@ -13,7 +13,6 @@ use BeyCoder\Economy\EconomySaveSystem;
 use BeyCoder\Groups\GroupsManager;
 use BeyCoder\Groups\GroupsSaveSystem;
 use BeyCoder\Lang\LangSaveSystem;
-use BeyCoder\Prefix\PlayerGroupChangeEvent;
 use BeyCoder\Prefix\PlayerPrefixChangeEvent;
 use BeyCoder\Prefix\PrefixManager;
 use BeyCoder\Prefix\PrefixSaveSystem;
@@ -224,11 +223,11 @@ class ApiManager extends PluginBase {
             foreach ($data->getData()["users"] as $new){
                 foreach ($new as $name => $user) {
                     $player = new PlayerData($name);
-                    
+
                     foreach ($this->getServer()->getOnlinePlayers() as $onlinePlayer)
                     {
                         if($this->getGroupsManager($onlinePlayer)->getGroupName() != $user["groupName"] && strtolower($onlinePlayer->getName()) == $name){
-                            $this->getServer()->getPluginManager()->callEvent(new PlayerGroupChangeEvent($onlinePlayer, $user["groupName"]));
+                            $this->getGroupsManager($onlinePlayer)->setGroup($user["groupName"]);
                         }
                     }
 
