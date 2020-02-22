@@ -3,7 +3,7 @@
 
 namespace BeyCoder\Database;
 
-use BeyCoder\Prefix\GroupsSaveSystem;
+use BeyCoder\Groups\GroupsSaveSystem;
 
 class DatabaseGroups
 {
@@ -42,7 +42,7 @@ class DatabaseGroups
         $this->getDatabaseManager()->getManager()->getServer()->getScheduler()->scheduleAsyncTask(new AsyncURLTask($host, $api_path, $api_key, "method=getAllGroupsData", "saveAlGroupsData"));
     }
 
-    public function setPrefix(GroupsSaveSystem $groupsSaveSystem)
+    public function setGroup(GroupsSaveSystem $groupsSaveSystem)
     {
         $host = $this->getDatabaseManager()->getHost();
         $api_path = $this->getDatabaseManager()->getApiPath();

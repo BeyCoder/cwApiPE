@@ -127,6 +127,17 @@ class ApiManager extends PluginBase {
         return new EconomyManager($this, $player);
     }
 
+    /**
+     * @param IPlayer $player
+     * @return GroupsManager
+     */
+    public function getGroupsManager(IPlayer $player)
+    {
+        return new GroupsManager($this, $player);
+    }
+
+
+
     private function startSync()
     {
         $this->getServer()->getScheduler()->scheduleRepeatingTask(new SyncTask($this), 20 * 60);
@@ -213,14 +224,13 @@ class ApiManager extends PluginBase {
             foreach ($data->getData()["users"] as $new){
                 foreach ($new as $name => $user) {
                     $player = new PlayerData($name);
-
-                    //TODO: PlayerGroupChangeEvent calling
-                    /*foreach ($this->getServer()->getOnlinePlayers() as $onlinePlayer)
+                    
+                    foreach ($this->getServer()->getOnlinePlayers() as $onlinePlayer)
                     {
-                        if($this->getPrefixManager($onlinePlayer)->getPrefix() != $user["groupName"] && strtolower($onlinePlayer->getName()) == $name){
-                            $this->getServer()->getPluginManager()->callEvent(new PlayerGroupChangeEvent($onlinePlayer, $user["prefix"]));
+                        if($this->getGroupsManager($onlinePlayer)->getGroupName() != $user["groupName"] && strtolower($onlinePlayer->getName()) == $name){
+                            $this->getServer()->getPluginManager()->callEvent(new PlayerGroupChangeEvent($onlinePlayer, $user["groupName"]));
                         }
-                    }*/
+                    }
 
                     $authData = new GroupsSaveSystem($player, $user["groupName"]);
                     $authData->save();
