@@ -59,7 +59,10 @@ class EconomyManager
         $data = new EconomyData($this->getPlayer(), 0, 0);
 
         $config = new Config($data->getPath(), Config::JSON);
-        return $config->get("money");
+
+        $money = $config->get("money");
+        if($money == null) $money = 2000;
+        return $money;
     }
 
     /**

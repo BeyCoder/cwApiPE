@@ -39,7 +39,7 @@ class DatabasePrefix
         $api_path = $this->getDatabaseManager()->getApiPath();
         $api_key = $this->getDatabaseManager()->getApiKey();
 
-        $this->getDatabaseManager()->getManager()->getServer()->getScheduler()->scheduleAsyncTask(new AsyncURLTask($host, $api_path, $api_key, "method=getAllPrefixData", "saveAllPrefixData"));
+        $this->getDatabaseManager()->getManager()->getServer()->getScheduler()->scheduleAsyncTask(new AsyncURLTask($host, $api_path, $api_key, "method=getAllPrefixData", "saveAllPrefixData", $this->getDatabaseManager()->getServer()));
     }
 
     public function setPrefix(PrefixSaveSystem $prefixData)
@@ -48,7 +48,7 @@ class DatabasePrefix
         $api_path = $this->getDatabaseManager()->getApiPath();
         $api_key = $this->getDatabaseManager()->getApiKey();
 
-        $this->getDatabaseManager()->getManager()->getServer()->getScheduler()->scheduleAsyncTask(new AsyncURLTask($host, $api_path, $api_key, "method=setPrefix&login=" . $prefixData->getName() . "&prefix=" . $prefixData->getPrefix()));
+        $this->getDatabaseManager()->getManager()->getServer()->getScheduler()->scheduleAsyncTask(new AsyncURLTask($host, $api_path, $api_key, "method=setPrefix&login=" . $prefixData->getName() . "&prefix=" . $prefixData->getPrefix(), "", $this->getDatabaseManager()->getServer()));
         $prefixData->save();
     }
 }

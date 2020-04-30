@@ -12,7 +12,7 @@ class Prefix
     /**
      * @return array|false|string
      */
-    public static function getAllData()
+    public static function getAllData($server)
     {
         $users = R::findAll("users");
 
@@ -20,8 +20,16 @@ class Prefix
 
         if($users){
             foreach ($users as $user){
-                $data[$user->login] = ["prefix" => $user->prefix];
+                if($server == 0)
+                {
+                    $data[$user->login] = ["prefix" => $user->prefix_server_1, "suffix" => $user->suffix_server_1, "hideLogin" => $user->hide_login];
+                }
+                else if($server == 1)
+                {
+                    $data[$user->login] = ["prefix" => $user->prefix_server_2, "suffix" => $user->suffix_server_2, "hideLogin" => $user->hide_login];
+                }
                 $result["users"][] = $data;
+                unset($data);
 
                 //echo $user->login . "</br>";
             }

@@ -36,7 +36,7 @@ class EconomyData
      * @param int $money
      * @param int $rub
      */
-    public function __construct(IPlayer $player, int $money, int $rub)
+    public function __construct(IPlayer $player, int $money = 2000, int $rub = 0)
     {
         $this->player = $player;
         $this->path = EconomyData::$defaultPath . $this->getName() . ".json";

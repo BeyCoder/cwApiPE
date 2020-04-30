@@ -22,6 +22,7 @@ class Lang
             foreach ($lang as $data){
                 $data[$data->key] = ["ru" => $data->ru_data];
                 $result["lang"][] = $data;
+                unset($data);
             }
         }else{
             $result["error"] = ["code" => 801, "error_message" => "No lang keys!"];

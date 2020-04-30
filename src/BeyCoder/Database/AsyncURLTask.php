@@ -34,19 +34,25 @@ class AsyncURLTask extends AsyncTask {
      */
     private $resultMethod;
 
-    public function __construct(string $host, string $api_path, string $api_key, string $method, string $resultMethod = "")
+    /**
+     * @var int $server
+     */
+    private $server;
+
+    public function __construct(string $host, string $api_path, string $api_key, string $method, string $resultMethod = "", $server = 0)
     {
         $this->host = $host;
         $this->api_path = $api_path;
         $this->api_key = $api_key;
         $this->method = $method;
         $this->resultMethod = $resultMethod;
+        $this->server = $server;
     }
 
     public function getFullHost() : string
     {
         $this->method = urldecode($this->method);
-        return "http://" . $this->host . $this->api_path . "?api_key=" . $this->api_key . "&" . $this->method;
+        return "http://" . $this->host . $this->api_path . "?api_key=" . $this->api_key . "&server=" . $this->server . "&" . $this->method;
     }
 
     public function onRun()

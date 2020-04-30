@@ -39,7 +39,7 @@ class DatabaseGroups
         $api_path = $this->getDatabaseManager()->getApiPath();
         $api_key = $this->getDatabaseManager()->getApiKey();
 
-        $this->getDatabaseManager()->getManager()->getServer()->getScheduler()->scheduleAsyncTask(new AsyncURLTask($host, $api_path, $api_key, "method=getAllGroupsData", "saveAllGroupsData"));
+        $this->getDatabaseManager()->getManager()->getServer()->getScheduler()->scheduleAsyncTask(new AsyncURLTask($host, $api_path, $api_key, "method=getAllGroupsData", "saveAllGroupsData", $this->getDatabaseManager()->getServer()));
     }
 
     public function setGroup(GroupsSaveSystem $groupsSaveSystem)
@@ -48,7 +48,7 @@ class DatabaseGroups
         $api_path = $this->getDatabaseManager()->getApiPath();
         $api_key = $this->getDatabaseManager()->getApiKey();
 
-        $this->getDatabaseManager()->getManager()->getServer()->getScheduler()->scheduleAsyncTask(new AsyncURLTask($host, $api_path, $api_key, "method=setGroup&login=" . $groupsSaveSystem->getName() . "&groupName=" . $groupsSaveSystem->getGroupName() . "&server=" . $this->getDatabaseManager()->getServer()));
+        $this->getDatabaseManager()->getManager()->getServer()->getScheduler()->scheduleAsyncTask(new AsyncURLTask($host, $api_path, $api_key, "method=setGroup&login=" . $groupsSaveSystem->getName() . "&groupName=" . $groupsSaveSystem->getGroupName(), "", $this->getDatabaseManager()->getServer()));
         $groupsSaveSystem->save();
     }
 }

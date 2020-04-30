@@ -20,14 +20,17 @@ class Auth
 
         if($users){
             foreach ($users as $user){
-                $data[$user->login] = ["id" => $user->id,"password" => $user->password, "cid" => $user->cid];
+
+                $data[$user->login] = ["id" => $user->id, "password" => $user->password, "cid" => $user->cid];
                 $result["users"][] = $data;
+                unset($data);
             }
         }else{
             $result["error"] = ["code" => 801, "error_message" => "No users!"];
         }
 
         $result = json_encode($result);
+        file_put_contents("cache_auth.json", $result);
         return $result;
     }
 

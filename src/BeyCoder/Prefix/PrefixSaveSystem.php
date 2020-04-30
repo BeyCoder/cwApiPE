@@ -17,14 +17,28 @@ class PrefixSaveSystem extends PrefixData implements ISaveable
     private $prefix;
 
     /**
+     * @var string $suffix
+     */
+    private $suffix;
+
+    /**
+     * @var string $hideLogin
+     */
+    private $hideLogin;
+
+    /**
      * PrefixSaveSystem constructor.
      * @param IPlayer $player
      * @param string $prefix
+     * @param string $suffix
+     * @param string $hideLogin
      */
-    public function __construct(IPlayer $player, string $prefix)
+    public function __construct(IPlayer $player, $prefix, $suffix, $hideLogin)
     {
         parent::__construct($player);
         $this->prefix = $prefix;
+        $this->suffix = $suffix;
+        $this->hideLogin = $hideLogin;
     }
 
     /**
@@ -35,11 +49,37 @@ class PrefixSaveSystem extends PrefixData implements ISaveable
         return $this->prefix;
     }
 
+    /**
+     * @return string
+     */
+    public function getSuffix(): string
+    {
+        return $this->suffix;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHideLogin(): string
+    {
+        return $this->hideLogin;
+    }
+
     public function save()
     {
         $config = new Config($this->getPath(), Config::JSON);
 
-        $config->set("prefix", $this->getPrefix());
+        if($this->prefix != "") {
+            $config->set("prefix", $this->getPrefix());
+        }
+
+        if($this->suffix != "") {
+            $config->set("suffix", $this->getSuffix());
+        }
+
+        if($this->hideLogin != "") {
+            $config->set("hideLogin", $this->getHideLogin());
+        }
         $config->save();
     }
 }

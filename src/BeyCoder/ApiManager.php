@@ -14,6 +14,7 @@ use BeyCoder\Groups\GroupsManager;
 use BeyCoder\Groups\GroupsSaveSystem;
 use BeyCoder\Groups\PlayerGroupChangeEvent;
 use BeyCoder\Lang\LangSaveSystem;
+use BeyCoder\Prefix\PlayerHideLoginChangeEvent;
 use BeyCoder\Prefix\PlayerPrefixChangeEvent;
 use BeyCoder\Prefix\PrefixManager;
 use BeyCoder\Prefix\PrefixSaveSystem;
@@ -140,7 +141,7 @@ class ApiManager extends PluginBase {
 
     private function startSync()
     {
-        $this->getServer()->getScheduler()->scheduleRepeatingTask(new SyncTask($this), 20 * 60);
+        $this->getServer()->getScheduler()->scheduleRepeatingTask(new SyncTask($this), 20 * 180);
     }
 
     public function saveAllUserData($result)
@@ -258,16 +259,20 @@ class ApiManager extends PluginBase {
             foreach ($data->getData()["users"] as $new){
                 foreach ($new as $name => $user) {
                     $player = new PlayerData($name);
+                    $authData = new PrefixSaveSystem($player, $user["prefix"], $user["suffix"], $user["hideLogin"]);
+                    $authData->save();
 
-                    foreach ($this->getServer()->getOnlinePlayers() as $onlinePlayer)
-                    {
-                        if($this->getPrefixManager($onlinePlayer)->getPrefix() != $user["prefix"] && strtolower($onlinePlayer->getName()) == $name){
+                    foreach ($this->getServer()->getOnlinePlayers() as $onlinePlayer) {
+                        if ($this->getPrefixManager($onlinePlayer)->getPrefix() != $user["prefix"] && strtolower($onlinePlayer->getName()) == $name) {
                             $this->getServer()->getPluginManager()->callEvent(new PlayerPrefixChangeEvent($onlinePlayer, $user["prefix"]));
                         }
-                    }
 
-                    $authData = new PrefixSaveSystem($player, $user["prefix"]);
-                    $authData->save();
+                        if (!empty($user["hideLogin"])){
+                            if ($this->getPrefixManager($onlinePlayer)->getLogin() != $user["hideLogin"] && strtolower($onlinePlayer->getName()) == $name) {
+                                $this->getServer()->getPluginManager()->callEvent(new PlayerHideLoginChangeEvent($onlinePlayer, $user["hideLogin"]));
+                            }
+                        }
+                    }
                 }
             }
 

@@ -20,8 +20,11 @@ class Economy
 
         if($users){
             foreach ($users as $user){
+/*                $user->money = 2000;
+                R::store($user);*/
                 $data[$user->login] = ["rub" => $user->rub, "money" => $user->money];
                 $result["users"][] = $data;
+                unset($data);
             }
         }else{
             $result["error"] = ["code" => 801, "error_message" => "No users!"];

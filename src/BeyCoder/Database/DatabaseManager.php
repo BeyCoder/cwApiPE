@@ -226,7 +226,7 @@ class DatabaseManager{
      */
     public function getFullHost() : string
     {
-        return "http://" . $this->getHost() . $this->getApiPath() . "?api_key=" . $this->getApiKey();
+        return "http://" . $this->getHost() . $this->getApiPath() . "?api_key=" . $this->getApiKey() . "&server=" . $this->getServer();
     }
 
 }

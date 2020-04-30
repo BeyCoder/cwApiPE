@@ -34,7 +34,7 @@ if($data['api_key'] == $API_KEY)
             break;
 
         case "getAllGroupsData":
-            $result = Groups::getAllData();
+            $result = Groups::getAllData($data['server']);
             break;
 
         case "getAllLangData":
@@ -50,7 +50,7 @@ if($data['api_key'] == $API_KEY)
             break;
 
         case "getAllPrefixData":
-            $result = Prefix::getAllData();
+            $result = Prefix::getAllData($data['server']);
             break;
 
         case "setPrefix":
@@ -58,7 +58,7 @@ if($data['api_key'] == $API_KEY)
             break;
 
         case "setGroup":
-            $result = Groups::setGroup((string)$data["login"], (string)$data["groupName"]);
+            $result = Groups::setGroup((string)$data["login"], (string)$data["groupName"], $data['server']);
             break;
 
         case "setMoney":

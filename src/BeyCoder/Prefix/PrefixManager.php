@@ -56,7 +56,7 @@ class PrefixManager
      */
     public function setPrefix(string $prefix)
     {
-        $this->getManager()->getDatabaseManager()->getDatabasePrefix()->setPrefix(new PrefixSaveSystem($this->getPlayer(), $prefix));
+        $this->getManager()->getDatabaseManager()->getDatabasePrefix()->setPrefix(new PrefixSaveSystem($this->getPlayer(), $prefix, "", ""));
         $this->getManager()->getServer()->getPluginManager()->callEvent(new PlayerPrefixChangeEvent($this->getPlayer(), $prefix));
     }
 
@@ -68,6 +68,36 @@ class PrefixManager
         $data = new PrefixData($this->getPlayer());
 
         $config = new Config($data->getPath(), Config::JSON);
-        return "§r" . $config->get("prefix") . "§r";
+        return "§r§f" . $config->get("prefix") . "§r";
+    }
+
+    /**
+     * @return bool|mixed
+     */
+    public function getSuffix()
+    {
+        $data = new PrefixData($this->getPlayer());
+
+        $config = new Config($data->getPath(), Config::JSON);
+        return "§r" . $config->get("suffix");
+    }
+
+    /**
+     * @return bool|mixed
+     */
+    public function getLogin()
+    {
+        $data = new PrefixData($this->getPlayer());
+        $config = new Config($data->getPath(), Config::JSON);
+
+        $originalName = $this->getPlayer()->getName();
+        $hideName = $config->get("hideLogin");
+
+        if(empty($hideName))
+        {
+           $hideName = $originalName;
+        }
+
+        return $hideName;
     }
 }
